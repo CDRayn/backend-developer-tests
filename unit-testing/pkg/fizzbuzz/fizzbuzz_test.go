@@ -56,7 +56,28 @@ func TestFizzBuzzValid(t *testing.T) {
 	}
 }
 
-// TestFizzBuzz_0Total tests the behavior of FizzBuzz() when the total parameter is 0
+//// TestFizzBuzz_0Fizz tests the behavior of FizzBuzz() when the fizzAt param is 0. This should raise an error
+//// to avoid a divide by zero bug
+//func TestFizzBuzz_0Fizz(t *testing.T) {
+//	testCases := []TestCase{
+//		// Test for divide by zero errors
+//		{
+//			total:  5,
+//			fizzAt: 0,
+//			buzzAt: 3,
+//			result: []string{"1", "2", buzz, "4", "5"},
+//		},
+//	}
+//
+//	for _, element := range testCases {
+//		_, err := FizzBuzz(element.total, element.fizzAt, element.total)
+//		assert.Error(t, err, "Error expected but no encounted")
+//
+//	}
+//}
+
+// TestFizzBuzz_0Total tests the behavior of FizzBuzz() when the total parameter is 0. An empty slice
+// should be returned.
 func TestFizzBuzz_0Total(t *testing.T) {
 	testCases := []TestCase{
 		{
