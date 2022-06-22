@@ -29,6 +29,18 @@ func TestFizzBuzzValidEntries(t *testing.T) {
 			buzzAt: 2,
 			result: []string{"1", buzz, "3", buzz, fizz, buzz, "7", buzz, "9", fizzbuzz},
 		},
+		{
+			total:  5,
+			fizzAt: 2,
+			buzzAt: 5,
+			result: []string{"1", fizz, "3", fizz, buzz},
+		},
+		{
+			total:  5,
+			fizzAt: 2,
+			buzzAt: 2,
+			result: []string{"1", fizzbuzz, "3", fizzbuzz, "5"},
+		},
 	}
 
 	for _, element := range validTestCases {
