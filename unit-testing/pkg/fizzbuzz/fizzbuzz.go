@@ -17,18 +17,19 @@ func FizzBuzz(total, fizzAt, buzzAt int64) []string {
 	result := make([]string, total)
 
 	for i := int64(1); i <= total; i++ {
-		if !(i%fizzAt == 0) && !(i%buzzAt == 0) {
-			result[i-1] = strconv.FormatInt(i, 10)
-			continue
+
+		if fizzAt != 0 && i%fizzAt == 0 {
+			result[i-1] += "Fizz"
 		}
 
-		if i%fizzAt == 0 {
-			result[i-1] = "Fizz"
-		}
-
-		if i%buzzAt == 0 {
+		if buzzAt != 0 && i%buzzAt == 0 {
 			result[i-1] += "Buzz"
 		}
+
+		if len(result[i-1]) == 0 {
+			result[i-1] = strconv.FormatInt(i, 10)
+		}
+
 	}
 
 	return result
