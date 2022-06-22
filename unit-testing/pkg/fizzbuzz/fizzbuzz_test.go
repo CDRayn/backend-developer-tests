@@ -112,6 +112,23 @@ func TestFizzBuzz_TotalLessThan(t *testing.T) {
 	}
 }
 
+// TestFizzBuzz_NegTotal checks the behavior of FizzBuzz() when the total parameter is less than 0. Negative values
+// can cause panics with the make() function.
+func TestFizzBuzz_NegTotal(t *testing.T) {
+	testCases := []TestCase{
+		{
+			total:  -5,
+			fizzAt: 2,
+			buzzAt: 3,
+			result: []string{},
+		},
+	}
+
+	for _, item := range testCases {
+		assert.Equal(t, FizzBuzz(item.total, item.fizzAt, item.buzzAt), item.result)
+	}
+}
+
 // TestFizzBuzz_0Total tests the behavior of FizzBuzz() when the total parameter is 0. An empty slice
 // should be returned.
 func TestFizzBuzz_0Total(t *testing.T) {
