@@ -72,6 +72,23 @@ func TestFizzBuzz_0Fizz(t *testing.T) {
 	}
 }
 
+// TestFizzBuzz_0Buzz checks the behavior of FizzBuzz() for errors (particularly divide by 0 errors) when the buzzAt
+//  parameter is set to 0.
+func TestFizzBuzz_0Buzz(t *testing.T) {
+	testCases := []TestCase{
+		{
+			total:  5,
+			fizzAt: 3,
+			buzzAt: 0,
+			result: []string{"1", "2", fizz, "4", "5"},
+		},
+	}
+
+	for _, item := range testCases {
+		assert.Equal(t, FizzBuzz(item.total, item.fizzAt, item.buzzAt), item.result)
+	}
+}
+
 // TestFizzBuzz_TotalLessThan tests the behavior of FizzBuzz() when the total parameter is less than
 // either the fizzAt or BuzzAt parameters.
 func TestFizzBuzz_TotalLessThan(t *testing.T) {
