@@ -9,8 +9,29 @@ const fizz = "Fizz"
 const buzz = "Buzz"
 const fizzbuzz = "FizzBuzz"
 
-func TestFizzBuzzValidEntries(t *testing.T) {
-	result := []string{"1", fizz, "3", fizz, buzz, fizz, "7", fizz, "9", fizzbuzz}
+type TestCase struct {
+	total, fizzAt, buzzAt int64
+	result                []string
+}
 
-	assert.Equal(t, FizzBuzz(10, 2, 5), result)
+func TestFizzBuzzValidEntries(t *testing.T) {
+
+	validTestCases := []TestCase{
+		{
+			total:  10,
+			fizzAt: 2,
+			buzzAt: 5,
+			result: []string{"1", fizz, "3", fizz, buzz, fizz, "7", fizz, "9", fizzbuzz},
+		},
+		{
+			total:  10,
+			fizzAt: 5,
+			buzzAt: 2,
+			result: []string{"1", buzz, "3", buzz, fizz, buzz, "7", buzz, "9", fizzbuzz},
+		},
+	}
+
+	for _, element := range validTestCases {
+		assert.Equal(t, FizzBuzz(element.total, element.fizzAt, element.buzzAt), element.result)
+	}
 }
