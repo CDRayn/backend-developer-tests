@@ -42,7 +42,23 @@ func TestFizzBuzzValid(t *testing.T) {
 			buzzAt: 2,
 			result: []string{"1", fizzbuzz, "3", fizzbuzz, "5"},
 		},
-		// Test for when a total value is less than fizz or buzz
+	}
+
+	for _, element := range validTestCases {
+		assert.Equal(t, FizzBuzz(element.total, element.fizzAt, element.buzzAt), element.result)
+	}
+}
+
+// TestFizzBuzz_TotalLessThan tests the behavior of FizzBuzz() when the total parameter is less than
+// either the fizzAt or BuzzAt parameters.
+func TestFizzBuzz_TotalLessThan(t *testing.T) {
+	testCases := []TestCase{
+		{
+			total:  2,
+			fizzAt: 3,
+			buzzAt: 5,
+			result: []string{"1", "2"},
+		},
 		{
 			total:  2,
 			fizzAt: 3,
@@ -51,30 +67,10 @@ func TestFizzBuzzValid(t *testing.T) {
 		},
 	}
 
-	for _, element := range validTestCases {
+	for _, element := range testCases {
 		assert.Equal(t, FizzBuzz(element.total, element.fizzAt, element.buzzAt), element.result)
 	}
 }
-
-//// TestFizzBuzz_0Fizz tests the behavior of FizzBuzz() when the fizzAt param is 0. This should raise an error
-//// to avoid a divide by zero bug
-//func TestFizzBuzz_0Fizz(t *testing.T) {
-//	testCases := []TestCase{
-//		// Test for divide by zero errors
-//		{
-//			total:  5,
-//			fizzAt: 0,
-//			buzzAt: 3,
-//			result: []string{"1", "2", buzz, "4", "5"},
-//		},
-//	}
-//
-//	for _, element := range testCases {
-//		_, err := FizzBuzz(element.total, element.fizzAt, element.total)
-//		assert.Error(t, err, "Error expected but no encounted")
-//
-//	}
-//}
 
 // TestFizzBuzz_0Total tests the behavior of FizzBuzz() when the total parameter is 0. An empty slice
 // should be returned.
