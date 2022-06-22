@@ -72,6 +72,16 @@ code coverage with your tests?
 Run `go test -v -cover ./...` from the `unit-testing` directory and let us know 
 how you did.
 
+### Candidate's Notes
+I was able to get to 100% coverage of `FizzBuzz()` and found a couple of potential bugs. Normally I would address some
+of these bugs by using Go's builtin error type, but I didn't want to change the function signature of `FizzBuzz()` so I 
+changed the behavior of `FizzBuzz()` as I saw best fit to address any identified bugs.
+
+The bugs I did find and addressed are the following:
+
+- `make()` panic: If the `total` parameter is negative, it will cause `make()` to panic. I added a guard that returns empty results for negative totals.
+- divide by zero panic: If either `fizzAt` or `buzzAt`
+
 ## Web Services
 
 Web services are our bread and butter. Our services talk to each other over 

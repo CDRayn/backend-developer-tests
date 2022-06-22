@@ -112,6 +112,14 @@ func TestFizzBuzz_TotalLessThan(t *testing.T) {
 	}
 }
 
+// TestFizzBuzz_LargeTotal checks the behavior of FizzBuzz() when the total parameter is greater than 1000 and
+// ensure that FizzBuzz() does not allow excessively large totals to be used and cause an excessive amount of
+// system resources to be used.
+func TestFizzBuzz_LargeTotal(t *testing.T) {
+	result := FizzBuzz(43506, 2, 5)
+	assert.Equal(t, len(result), 1000)
+}
+
 // TestFizzBuzz_NegTotal checks the behavior of FizzBuzz() when the total parameter is less than 0. Negative values
 // can cause panics with the make() function.
 func TestFizzBuzz_NegTotal(t *testing.T) {
