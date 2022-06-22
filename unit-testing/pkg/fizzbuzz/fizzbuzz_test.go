@@ -14,7 +14,8 @@ type TestCase struct {
 	result                []string
 }
 
-func TestFizzBuzzValidEntries(t *testing.T) {
+// TestFizzBuzzValid tests the behavior of FizzBuzz() using expected values for its params
+func TestFizzBuzzValid(t *testing.T) {
 
 	validTestCases := []TestCase{
 		{
@@ -41,9 +42,32 @@ func TestFizzBuzzValidEntries(t *testing.T) {
 			buzzAt: 2,
 			result: []string{"1", fizzbuzz, "3", fizzbuzz, "5"},
 		},
+		// Test for when a total value is less than fizz or buzz
+		{
+			total:  2,
+			fizzAt: 3,
+			buzzAt: 5,
+			result: []string{"1", "2"},
+		},
 	}
 
 	for _, element := range validTestCases {
+		assert.Equal(t, FizzBuzz(element.total, element.fizzAt, element.buzzAt), element.result)
+	}
+}
+
+// TestFizzBuzz_0Total tests the behavior of FizzBuzz() when the total parameter is 0
+func TestFizzBuzz_0Total(t *testing.T) {
+	testCases := []TestCase{
+		{
+			total:  0,
+			fizzAt: 2,
+			buzzAt: 5,
+			result: []string{},
+		},
+	}
+
+	for _, element := range testCases {
 		assert.Equal(t, FizzBuzz(element.total, element.fizzAt, element.buzzAt), element.result)
 	}
 }
