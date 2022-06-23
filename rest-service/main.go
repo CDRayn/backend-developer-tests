@@ -3,10 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/stackpath/backend-developer-tests/rest-service/pkg/models"
 	"log"
 	"net/http"
-
-	"github.com/stackpath/backend-developer-tests/rest-service/pkg/models"
 )
 
 func main() {
@@ -14,6 +13,7 @@ func main() {
 	fmt.Println()
 
 	peopleHandler := func(w http.ResponseWriter, req *http.Request) {
+		// Only allow the GET HTTP verb
 		if req.Method != "GET" {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			w.Header().Set("Content-Type", "application/json")
@@ -23,7 +23,7 @@ func main() {
 			}
 			return
 		}
-
+		// Find all people if not query parameters are passed in the request
 		if len(req.URL.Query()) == 0 {
 			msg, err := json.Marshal(models.AllPeople())
 			if err != nil {
