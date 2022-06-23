@@ -36,6 +36,62 @@ func main() {
 				log.Fatal(err)
 			}
 		}
+		// Find person by phone number
+		if len(req.URL.Query()) == 1 {
+			phoneNumber, ok := req.URL.Query()["phone_number"]
+			if !ok {
+				log.Println("missing phone_number parameter")
+				w.WriteHeader(http.StatusBadRequest)
+				w.Header().Set("Content-Type", "appliation/json")
+				_, err := w.Write([]byte("Bad request!\r\n"))
+				if err != nil {
+					log.Fatal(err)
+				}
+				return
+			}
+			result := models.FindPeopleByPhoneNumber(phoneNumber[0])
+			// if no one is found return a 404
+			if len(result) == 0 {
+				log.Println("person not found")
+				w.WriteHeader(http.StatusNotFound)
+				w.Header().Set("Content-Type", "appliation/json")
+				_, err := w.Write([]byte("Not found!\r\n"))
+				if err != nil {
+					log.Fatal(err)
+				}
+				return
+			} else {
+				w.WriteHeader(http.StatusOK)
+				w.Header().Set("Content-Type", "application/json")
+
+				_, err := w.Write([]byte("["))
+				if err != nil {
+					log.Fatal(err)
+				}
+				for index, person := range result {
+					body, err := person.ToJSON()
+					if err != nil {
+						log.Fatal(err)
+					}
+					_, err = w.Write([]byte(body))
+					if err != nil {
+						log.Fatal(err)
+					}
+					if index < len(result)-1 {
+						_, err = w.Write([]byte(","))
+						if err != nil {
+							log.Fatal(err)
+						}
+					}
+				}
+				_, err = w.Write([]byte("]\r\n"))
+				if err != nil {
+					log.Fatal(err)
+				}
+				return
+			}
+
+		}
 		// Find person by First and last name
 		firstName, ok := req.URL.Query()["first_name"]
 		if !ok {
