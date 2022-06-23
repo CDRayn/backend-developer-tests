@@ -206,8 +206,16 @@ func main() {
 		return
 	}
 
+	// A health check is needed for monitoring and observability of the application
+	// this is often used by load balancers and container orchestrators
+	healthCheck := func(w http.ResponseWriter, req *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "text/plain")
+	}
+
 	http.HandleFunc("/people", peopleHandler)
 	http.HandleFunc("/people/", peopleIdHandler)
+	http.HandleFunc("/health", healthCheck)
 	// Bind to a TCP port and listen for incoming networking traffic
 	// Use the non-privileged TCP port 8000
 	log.Fatal(http.ListenAndServe(":8000", nil))
