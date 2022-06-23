@@ -60,6 +60,7 @@ func main() {
 			return
 		}
 		result := models.FindPeopleByName(firstName[0], lastName[0])
+		// if no one is found return a 404
 		if len(result) == 0 {
 			log.Println("person not found")
 			w.WriteHeader(http.StatusNotFound)
@@ -72,11 +73,28 @@ func main() {
 		} else {
 			w.WriteHeader(http.StatusOK)
 			w.Header().Set("Content-Type", "application/json")
-			body, err := result[0].ToJSON()
+
+			_, err := w.Write([]byte("["))
 			if err != nil {
 				log.Fatal(err)
 			}
-			_, err = w.Write(append([]byte(body), []byte("\r\n")...))
+			for index, person := range result {
+				body, err := person.ToJSON()
+				if err != nil {
+					log.Fatal(err)
+				}
+				_, err = w.Write([]byte(body))
+				if err != nil {
+					log.Fatal(err)
+				}
+				if index < len(result)-1 {
+					_, err = w.Write([]byte(","))
+					if err != nil {
+						log.Fatal(err)
+					}
+				}
+			}
+			_, err = w.Write([]byte("]\r\n"))
 			if err != nil {
 				log.Fatal(err)
 			}
