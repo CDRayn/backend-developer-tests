@@ -36,6 +36,48 @@ func main() {
 				log.Fatal(err)
 			}
 		}
+		// Find person by First and last name
+		firstName, ok := req.URL.Query()["first_name"]
+		if !ok {
+			log.Println("missing first_name parameter")
+			w.WriteHeader(http.StatusBadRequest)
+			w.Header().Set("Content-Type", "appliation/json")
+			_, err := w.Write([]byte("Bad request!\r\n"))
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+		lastName, ok := req.URL.Query()["last_name"]
+		if !ok {
+			log.Println("missing first_name parameter")
+			w.WriteHeader(http.StatusBadRequest)
+			w.Header().Set("Content-Type", "appliation/json")
+			_, err := w.Write([]byte("Bad request!\r\n"))
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+		result := models.FindPeopleByName(firstName[0], lastName[0])
+		if len(result) == 0 {
+			log.Println("person not found")
+			w.WriteHeader(http.StatusNotFound)
+			w.Header().Set("Content-Type", "appliation/json")
+			_, err := w.Write([]byte("Not found!\r\n"))
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Content-Type", "application/json")
+			body, err := result[0].ToJSON()
+			if err != nil {
+				log.Fatal(err)
+			}
+			_, err = w.Write(append([]byte(body), []byte("\r\n")...))
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
 
 	}
 	peopleIdHandler := func(w http.ResponseWriter, req *http.Request) {
@@ -62,7 +104,7 @@ func main() {
 			}
 			return
 		}
-		
+
 		person, err := models.FindPersonByID(id)
 		if err != nil {
 			log.Println(err)
