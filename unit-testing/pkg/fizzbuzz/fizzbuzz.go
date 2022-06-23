@@ -14,22 +14,30 @@ import (
 // - Return the original number if is is not divisible by either the `fizzAt` or
 //   the `buzzAt` values.
 func FizzBuzz(total, fizzAt, buzzAt int64) []string {
-	result := make([]string, total)
+	var checkedTotal = total
 
-	for i := int64(1); i <= total; i++ {
-		if !(i%fizzAt == 0) && !(i%buzzAt == 0) {
-			result[i-1] = strconv.FormatInt(i, 10)
-			continue
+	// Negative values for total will call make() to panic
+	if checkedTotal < 0 {
+		return []string{}
+	} else if checkedTotal > 1000 {
+		// Don't let FizzBuzz() allocate an exorbitant amount of memory using make()
+		// truncate it.
+		checkedTotal = 1000
+	}
+	result := make([]string, checkedTotal)
+
+	for i := int64(1); i <= checkedTotal; i++ {
+		if fizzAt != 0 && i%fizzAt == 0 {
+			result[i-1] += "Fizz"
 		}
 
-		if i%fizzAt == 0 {
-			result[i-1] = "Fizz"
-		}
-
-		if i%buzzAt == 0 {
+		if buzzAt != 0 && i%buzzAt == 0 {
 			result[i-1] += "Buzz"
 		}
-	}
 
+		if len(result[i-1]) == 0 {
+			result[i-1] = strconv.FormatInt(i, 10)
+		}
+	}
 	return result
 }

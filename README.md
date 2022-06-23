@@ -72,6 +72,16 @@ code coverage with your tests?
 Run `go test -v -cover ./...` from the `unit-testing` directory and let us know 
 how you did.
 
+### Candidate's Notes
+I was able to get to 100% coverage of `FizzBuzz()` and found a couple of potential bugs. Normally I would address some
+of these bugs by using Go's builtin error type, but I didn't want to change the function signature of `FizzBuzz()` so I 
+changed the behavior of `FizzBuzz()` as I saw best fit to address any identified bugs.
+
+The bugs I did find and addressed are the following:
+
+- `make()` panic: If the `total` parameter is negative, it will cause `make()` to panic. I added a guard that returns empty results for negative totals.
+- divide by zero panic: If either `fizzAt` or `buzzAt`
+
 ## Web Services
 
 Web services are our bread and butter. Our services talk to each other over 
@@ -101,6 +111,33 @@ Implementing the service is a good start, but are there any extras you can throw
 in? How would you test this service? How would you audit it? How would an ops 
 person audit it?
 
+### Candidate's Notes
+The implementation built meets the requirements / acceptance criteria but is rather unpolished
+in its current state. If more time was available the following would be done to clean it up
+and make it more resilient. This todo list includes the following:
+
+- **Make application more dry**: The current structure and implementation of the handlers has a lot of repeated code that should be broken
+out into separate callables. Most of this has to do with handling query parameters, writing headers, and writing response bodies.
+- **Improve error handling**: The current error handling could be made more sophisticated and robust in order to better handle errors
+raised by the `net/http` package and `json` packages. Some of these errors might recoverable and not necessitate treating
+them as fatal.
+- **Standardize logging behavior**: A consistent pattern of when to log information and what to log should be adopted. This can include
+patterns such as weather to log on requests resulting in errors or all requests, whether to include request parameters in
+the log entries, and whether any networking information in the log.
+- **Add Unit Tests**: In order to confirm correctness, unit tests should be incorporated to validate the behavior of the `person` model
+and the HTTP handler functions. The handlers can be tested by passing in `http.Request` types and inspecting the response that is
+returned.
+- **Make runtime options configurable**: To make the service more flexible, runtime parameters such as network protocol and
+TCP/UDP port should be selectable by passing in these configuration values to the executable at startup. These were hardcoded
+to TCP and 8000 for the sake of expediency.
+
+For testing this service, I would rely on unit tests to check the correctness of the handlers and models. For integration testing
+I would use Go's standard library package `httptest`. For end-to-end testing, I would leverage some HTTP testing utility that can
+be scripted based on expected behavior.
+
+For auditing, I would leverage test coverage utilities and RESTful schema documentation tools such as Swagger.
+
+
 ## Input Processing
 
 StackPath operates a gigantic worldwide network to power our edge services. These 
@@ -117,6 +154,13 @@ What if entries are streamed to it? How would you differentiate between errors r
 from the stream vs program errors? How would you test this? Assume that `\n` ends a 
 line of input. Was with the REST service test you're free to use any built-ins or 
 import any frameworks you like to do this.
+
+### Candidate's Notes
+The solution implemented is pretty simple but only relies on facilities provided by Go's standard library. The `bufio`
+package provides buffered reader facilities that can make it more performant by avoiding system calls everytime the
+stream is read. This can also help avoid keeping large chunks of the stream in memory since only the buffer is actually
+in RAM. Further improvement could be made by better formatting the output.
+
 
 ## Concurrency
 
