@@ -111,6 +111,33 @@ Implementing the service is a good start, but are there any extras you can throw
 in? How would you test this service? How would you audit it? How would an ops 
 person audit it?
 
+### Candidate's Notes
+The implementation built meets the requirements / acceptance criteria but is rather unpolished
+in its current state. If more time was available the following would be done to clean it up
+and make it more resilient. This todo list includes the following:
+
+- **Make application more dry**: The current structure and implementation of the handlers has a lot of repeated code that should be broken
+out into separate callables Most of this has to do with handling query parameters, writing headers, and writing response bodies.
+- **Improve error handling**: The current error handling could be made more sophisticated and robust in order to better handle errors
+raised by the `net/http` package and `json` packages. Some of these errors might recoverable and necessarily require treating
+them as fatal.
+- **Standardize logging behavior**: A consistent pattern of when to log information and what to log should be adopted. This can include
+patterns such as weather to log on request resulting in errors or successful requests, including request parameters in
+the log entry, and any networking information to log.
+- **Add Unit Tests**: In order to confirm correctness, unit tests should be incorporated to validate the behavior of the `person` model
+and the HTTP handler functions. The handlers can be tested by passing in `http.Request` types and inspecting the response that is
+returned.
+- **Make runtime options configurable**: To make the service more flexible, runtime parameters such as network protocol and
+TCP/UDP port should be selectable by passing in these configuration values to the executable at startup. These were hardcoded
+to TCP and 8000 for the sake of expediency.
+
+For testing this service, I would rely on unit tests to check the correctness of the handlers and models. For integration testing
+I would use Go's standard library package `httptest`. For end-to-end testing, I would leverage some HTTP testing utility that can
+be scripted based on expected behavior.
+
+For auditing, I would leverage test coverage utilities and RESTful schema documentation tools such as Swagger.
+
+
 ## Input Processing
 
 StackPath operates a gigantic worldwide network to power our edge services. These 
