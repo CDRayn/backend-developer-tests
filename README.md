@@ -117,13 +117,13 @@ in its current state. If more time was available the following would be done to 
 and make it more resilient. This todo list includes the following:
 
 - **Make application more dry**: The current structure and implementation of the handlers has a lot of repeated code that should be broken
-out into separate callables Most of this has to do with handling query parameters, writing headers, and writing response bodies.
+out into separate callables. Most of this has to do with handling query parameters, writing headers, and writing response bodies.
 - **Improve error handling**: The current error handling could be made more sophisticated and robust in order to better handle errors
-raised by the `net/http` package and `json` packages. Some of these errors might recoverable and necessarily require treating
+raised by the `net/http` package and `json` packages. Some of these errors might recoverable and not necessitate treating
 them as fatal.
 - **Standardize logging behavior**: A consistent pattern of when to log information and what to log should be adopted. This can include
-patterns such as weather to log on request resulting in errors or successful requests, including request parameters in
-the log entry, and any networking information to log.
+patterns such as weather to log on requests resulting in errors or all requests, whether to include request parameters in
+the log entries, and whether any networking information in the log.
 - **Add Unit Tests**: In order to confirm correctness, unit tests should be incorporated to validate the behavior of the `person` model
 and the HTTP handler functions. The handlers can be tested by passing in `http.Request` types and inspecting the response that is
 returned.
