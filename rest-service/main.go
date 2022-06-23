@@ -46,16 +46,18 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
+			return
 		}
 		lastName, ok := req.URL.Query()["last_name"]
 		if !ok {
-			log.Println("missing first_name parameter")
+			log.Println("missing last_name parameter")
 			w.WriteHeader(http.StatusBadRequest)
 			w.Header().Set("Content-Type", "appliation/json")
 			_, err := w.Write([]byte("Bad request!\r\n"))
 			if err != nil {
 				log.Fatal(err)
 			}
+			return
 		}
 		result := models.FindPeopleByName(firstName[0], lastName[0])
 		if len(result) == 0 {
@@ -66,6 +68,7 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
+			return
 		} else {
 			w.WriteHeader(http.StatusOK)
 			w.Header().Set("Content-Type", "application/json")
@@ -78,7 +81,6 @@ func main() {
 				log.Fatal(err)
 			}
 		}
-
 	}
 	peopleIdHandler := func(w http.ResponseWriter, req *http.Request) {
 		if req.Method != "GET" {
