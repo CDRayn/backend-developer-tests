@@ -155,6 +155,13 @@ from the stream vs program errors? How would you test this? Assume that `\n` end
 line of input. Was with the REST service test you're free to use any built-ins or 
 import any frameworks you like to do this.
 
+### Candidate's Notes
+The solution implemented is pretty simple but only relies on facilities provided by Go's standard library. The `bufio`
+package provides buffered reader facilities that can make it more performant by avoiding system calls everytime the
+stream is read. This can also help avoid keeping large chunks of the stream in memory since only the buffer is actually
+in RAM. Further improvement could be made by better formatting the output.
+
+
 ## Concurrency
 
 In some advanced situations, StackPath relies on Go's concurrency primitives to
